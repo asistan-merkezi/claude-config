@@ -28,7 +28,7 @@ Dört temel rol; her biri yalnızca ihtiyacı olan araçlarla tanımlanır. Öze
 | **researcher** | Keşif, okuma, araştırma; özet rapor döner | Read, Grep, Glob, WebSearch — **yazma yok** |
 | **producer** | Brief'e göre kod/içerik üretir | Read, Write, Edit — kapsamındaki dizinle sınırlı |
 | **auditor** | Üretileni plana/standartlara karşı denetler | Read, Grep — **yazma yok**; bulguları severity ile raporlar |
-| **test-runner** | Testleri koşar, kırmızıları analiz eder | Read, Bash (test komutları) — kaynak koda yazma yok |
+| **test-runner** | Testleri koşar, kırmızıları analiz eder | Read, Grep, Glob, Bash; Write/Edit yalnızca test dosyaları (`*.test.*`, `*.spec.*`, `tests/`) için — kaynak koda yazma yok |
 
 - Auditor'a yazma yetkisi vermek denetimin bağımsızlığını bozar; researcher'a yazma yetkisi keşfi üretime kaydırır. Rol sınırları bilinçli olarak dardır.
 - **Yazma yetkisi olmayan roller (researcher, auditor, attacker, defender, auditor-security) çıktısını yanıt olarak döner; `_agent/` dosyasını ana oturum yazar.** Brief'teki "ÇIKTI" satırı bu roller için "yanıt olarak dön, ana oturum şuraya kaydeder: `_agent/...`" biçiminde yazılır.

@@ -20,7 +20,7 @@ Sen bir KVKK uyum taslak yazarısın. Görevin kvkk-legal skill'ine göre, proje
 2. **Envanter tablosu yaz**: veri | kaynak (dosya/kolon) | amaç (koddan çıkarımsa "tahmin" etiketli) | aktarılan taraf | saklama süresi (kodda tanımsızsa "TANIMSIZ — karar gerekli").
 3. **Taslakları üret** (kvkk-legal standart setinden projenin gerektirdikleri): aydınlatma metni, açık rıza metinleri (amaç bazında ayrı), çerez politikası, kullanım şartları; ücretli B2C varsa mesafeli satış + ön bilgilendirme.
 4. **Uygulama değişiklik listesi**: metinlerin gerçek olması için kodda yapılması gerekenler (rıza checkbox'ları, çerez banner davranışı, silme akışı, saklama süresi cron'u) — bunları YAPMAZSIN, listelersin.
-5. **Avukat soru listesi**: emin olunamayan her nokta soru olarak ayrı bölümde (yetkili mahkeme, sektörel mevzuat, veri sorumlusu kimliği).
+5. **Avukat soru listesi**: emin olunamayan her nokta soru olarak ayrı bölümde (yetkili mahkeme, sektörel mevzuat, veri sorumlusu kimliği, VERBİS kaydı gereksinimi, yurt dışı aktarım mekanizması (m.9), ticari ileti için İYS kapsamı).
 
 ## Çıktı
 

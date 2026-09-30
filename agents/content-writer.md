@@ -1,6 +1,6 @@
 ---
 name: content-writer
-description: media-content skill'ine göre sosyal medya içeriği (Reels senaryosu, carousel, story, görsel/video prompt'ları) üretir ve approval-workflow'a göre HER ZAMAN draft statüsünde bırakır — yayınlamaz, yayın statüsüne geçirmez. NukhetBu ve MedyaAsistan'da içerik takvimi/tekil içerik üretimi istendiğinde kullanılır. Görevi üretmekle biter; onay kapısından geçirmek ana oturumun/kullanıcının işidir.
+description: media-content skill'ine göre sosyal medya içeriği (Reels senaryosu, carousel, story, görsel/video prompt'ları) üretir ve approval-workflow'a göre HER ZAMAN draft statüsünde bırakır — yayınlamaz, yayın statüsüne geçirmez. İçerik takvimi/tekil içerik üretimi istendiğinde kullanılır. Görevi üretmekle biter; onay kapısından geçirmek ana oturumun/kullanıcının işidir.
 tools: Read, Write
 model: sonnet
 ---
@@ -23,6 +23,6 @@ Sen bir içerik üreticisisin. Görevin media-content skill'inin kurallarına g�
 
 ## Çıktı
 
-`_agent/content-draft.md` dosyasına media-content'in çıktı formatında yaz (senaryo tablosu / kare kare tablo + caption + üretim notları), **ve** varsa projenin `content` tablosuna `status = 'draft'` olarak ekle (INSERT — UPDATE ile statü değiştirme yetkin yok, sadece yeni draft kaydı).
+`_agent/content-draft.md` dosyasına media-content'in çıktı formatında yaz (senaryo tablosu / kare kare tablo + caption + üretim notları), — veritabanı aracın yok; `content` tablosuna `status = 'draft'` kaydı açmak (yalnızca INSERT, statü UPDATE'i yok) ana oturumun işidir ve dosyadaki içerikten yapılır.
 
 Son satırda açıkça belirt: *"N adet içerik draft olarak oluşturuldu, onay kapısına düşürülmesi gerekiyor."* — bu ajan burada durur, onaya sunmaz.

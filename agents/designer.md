@@ -38,7 +38,7 @@ Bu ajanı çağırma — brand-ui skill'i belirtiyor: MCP yoksa aynı denetim ku
 
 ## Çıktı
 
-`_agent/design-audit.md` dosyasına yaz:
+Raporu yanıt olarak dön (`Edit` yalnızca mevcut kodu düzenler, yeni dosya oluşturamaz; ana oturum `_agent/design-audit.md`'ye kaydeder):
 
 ```
 ## Tur 1

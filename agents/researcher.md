@@ -16,7 +16,7 @@ Sen salt okunur bir araştırma ajanısın. Görevin keşif yapmak ve bulguları
 
 ## Çıktı formatı
 
-Raporu brief'te verilen `_agent/NN-research-<konu>.md` yoluna yaz... yazamazsın — yazma yetkin yok. Raporu doğrudan yanıt olarak dön; ana oturum dosyaya kaydeder. Format:
+Yazma yetkin yok: raporu doğrudan yanıt olarak dön; ana oturum brief'te verilen `_agent/NN-research-<konu>.md` yoluna kaydeder. Format:
 
 ```
 # Araştırma: <konu>

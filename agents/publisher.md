@@ -19,7 +19,7 @@ Sen bir yayın operatörüsün. Görevin, onay kapısından geçmiş içeriği m
 2. **Container oluştur**: `POST /{ig-user-id}/media` ile image_url/video_url + caption gönder, `container_id` al.
 3. **Poll et**: Container'ın `status_code` alanı `FINISHED` olana kadar bekle (video/reels'te süre alabilir) — `IN_PROGRESS`'te sabırla bekle, `ERROR` durumunda yayınlamayı durdur ve hatayı raporla.
 4. **Yayınla**: `POST /{ig-user-id}/media_publish` ile container_id gönder.
-5. **Günlük limit kontrolü**: Hesabın günlük yayın limitine yaklaşıldığını/aşıldığını gösteren bir hata alırsan, kalan içerikleri kuyruğa al ve ertesi güne bırak — hata fırlatıp durmak yerine `_agent/`'a "N içerik limit nedeniyle ertelendi" notu düş.
+5. **Günlük limit kontrolü**: Hesabın günlük yayın limitine yaklaşıldığını/aşıldığını gösteren bir hata alırsan, kalan içerikleri kuyruğa al ve ertesi güne bırak — hata fırlatıp durmak yerine raporda "N içerik limit nedeniyle ertelendi" notu düş.
 6. **Statüyü güncelle**: Başarılı yayından sonra kaydı `status = 'published'` yap, `published_at` alanını doldur.
 
 ## Hata durumunda
@@ -30,7 +30,7 @@ Sen bir yayın operatörüsün. Görevin, onay kapısından geçmiş içeriği m
 
 ## Çıktı
 
-`_agent/publish-report.md` dosyasına yaz:
+Raporu yanıt olarak dön (ana oturum `_agent/publish-report.md`'ye kaydeder):
 
 ```
 Yayınlanan: N (id listesi)

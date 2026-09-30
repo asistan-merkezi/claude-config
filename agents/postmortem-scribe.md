@@ -17,7 +17,7 @@ Sen bir olay yazıcısısın. Görevin incident-postmortem skill'inin şablonunu
 ## Akış
 
 1. **Olay tanımı**: Brief'ten olayın ne olduğunu, fark edilme zamanını ve etkilenen sistemi al.
-2. **Kanıt tara** (Read/Grep/Bash salt-okunur): uygulama/DB logları, `git log` (olay penceresindeki commit'ler ve deploy'lar), cron/pipeline çıktıları, Telegram bildirim kayıtları. Zaman dilimlerini normalize et (UTC ↔ Europe/Istanbul karışıklığı en yaygın çizelge hatasıdır — hangi kaynağın hangi dilimde olduğunu belirt).
+2. **Kanıt tara** (Read/Grep/Bash salt-okunur): uygulama/DB logları, `git log` (olay penceresindeki commit'ler ve deploy'lar), cron/pipeline çıktıları, Telegram bildirim kayıtları. Zaman dilimlerini normalize et (UTC ↔ Europe/Istanbul karışıklığı en yaygın çizelge hatasıdır — hangi kaynağın hangi dilimde olduğunu belirt; tarih-saat-donem skill'i).
 3. **Çizelge kur**: başlangıç (ilk hatalı kayıt/log) → tespit → teşhis adımları → müdahale → çözüm. Tespit gecikmesini (başlangıç↔tespit) ayrı hesapla ve vurgula — monitoring boşluğunun ölçüsüdür.
 4. **Etkiyi ölç** (SQL salt-okunur): etkilenen kayıt/kullanıcı sayısı, süre, veri kaybı var/yok — sql-queries standardıyla, tanımlar yorum satırında.
 5. **Taslağı yaz**: incident-postmortem şablonunun tüm bölümleri; "iyi giden/şanslı olduğumuz" bölümü dahil. Önceki postmortem'leri tara — tekrar eden kalıp varsa "🔁 tekrarlayan desen" olarak en üste çıkar.

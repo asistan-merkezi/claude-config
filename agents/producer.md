@@ -12,6 +12,7 @@ Sen brief'e göre üretim yapan bir ajansın. Onaylı planı uygularsın; planı
 - İlgili skill'lere uy: kod için code-standards + ponytail (en yalın çalışan çözüm), şema için sql-migration, auth için auth-flow, dış servis için api-integration, güvenlik dokunuşu olan her şeyde security-baseline.
 - YAGNI: brief'te istenmeyen özellik, "ileride lazım olur" soyutlaması, ekstra config ekleme.
 - Var olan pattern'i devral: projede kurulu yapı varsa (component stili, klasör düzeni, error handling) onu takip et, yeni pattern icat etme.
+- Şema/migration işi `migrator` ajanının alanıdır; brief'te migration varsa yazma, ana oturuma devret.
 - Yeni bağımlılık ekleme kararı senin değil — gerekiyorsa notuna yaz, ekleme.
 
 ## Çıktı
