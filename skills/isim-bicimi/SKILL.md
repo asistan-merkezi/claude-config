@@ -17,26 +17,30 @@ Alan eklerken grup bilinçli seçilir ve CLAUDE.md'deki alan listesinde tutulur.
 | **Açıklama (dokunulmaz)** | `aciklama`, `not`, `yorum`, `sikayet`, `anamnez`, mesaj/şablon metni, `adres_detay`, iptal/red gerekçesi | Olduğu gibi; yalnızca `trim()` |
 | **Biçimi başka kuralla** | e-posta (küçük harf), kullanıcı adı, TC kimlik, IBAN, telefon, il/ilçe/mahalle (`adres-girisi`: paketten geldiği gibi) | `isimBicimi()` uygulanmaz |
 
-Belirsiz alanda varsayılan: **dokunma**. Yanlışlıkla büyük harfe çevrilmiş bir açıklama, yanlışlıkla küçük bırakılmış bir isimden daha zararlıdır. Kısaltma içeren ad alanlarında ("MR Cihazı", "SGK") `kisaltmaKoru` seçeneği kullanılır (bkz. aşağıda).
+Belirsiz alanda varsayılan: **dokunma**. Yanlışlıkla büyük harfe çevrilmiş bir açıklama, yanlışlıkla küçük bırakılmış bir isimden daha zararlıdır. Kısaltma içeren ad alanları için isteğe bağlı seçenek bölüm 2'nin sonundadır.
 
-## 2. Fonksiyon (tek yerde, `lib/isim.ts`)
+## 2. İki fonksiyon (tek yerde, `lib/utils.ts` veya `lib/isim.ts`)
+
+İki görev iki ayrı fonksiyondur; karıştırılırsa ya yazarken imleç zıplar ya da kayıtta boşluklar kalır:
 
 ```ts
 const TR = "tr-TR";
 
-export function isimBicimi(girdi: string, secenek?: { kisaltmaKoru?: boolean }): string {
-  return girdi
-    .trim()
-    .replace(/\s+/g, " ")
+/** Yazarken (onChange): UZUNLUĞU DEĞİŞTİRMEZ — boşluk kırpmaz/birleştirmez, imleç zıplamaz. */
+export function isimBasHarfBuyukYap(deger: string): string {
+  return deger
     .split(" ")
     .map((kelime) =>
-      secenek?.kisaltmaKoru && /^\p{Lu}{2,4}$/u.test(kelime)
-        ? kelime
-        : kelime
-            .toLocaleLowerCase(TR)
-            .replace(/(^|[-'’])(\p{L})/gu, (_, ayirac, harf) => ayirac + harf.toLocaleUpperCase(TR)),
+      kelime
+        .toLocaleLowerCase(TR)
+        .replace(/(^|[-'’])(\p{L})/gu, (_, ayirac: string, harf: string) => ayirac + harf.toLocaleUpperCase(TR)),
     )
     .join(" ");
+}
+
+/** Kaydederken (sunucu): kırp + art arda boşlukları teke indir + baş harf büyüt. */
+export function isimNormalle(deger: string): string {
+  return isimBasHarfBuyukYap(deger.trim().replace(/\s+/g, " "));
 }
 ```
 
@@ -47,25 +51,28 @@ Doğrulanmış örnekler (test dosyasına aynen girer):
 | `AYŞE nur` | `Ayşe Nur` |
 | `IŞIL`, `ışıl` | `Işıl` |
 | `İBRAHİM`, `ibrahim` | `İbrahim` |
-| `  ali    veli ` | `Ali Veli` |
 | `mehmet-ali` | `Mehmet-Ali` |
 | `o'neil` | `O'Neil` |
 | `ÇAĞLA ÖZGÜR` | `Çağla Özgür` |
 | `""` | `""` |
+| `isimNormalle("  ali    veli ")` | `Ali Veli` |
+| `isimBasHarfBuyukYap("ali ")` | `Ali ` (yazarken sondaki boşluk korunur) |
 
-**Türkçe harf tuzağı:** `toLowerCase()`/`toUpperCase()` kullanılmaz — `I→i`, `i→I` eşlemesi yapar (`IŞIL` → `ışıl` yerine `işil`, `ibrahim` → `Ibrahim`). Her ikisi de `toLocale…Case("tr-TR")` olmalıdır. Node'da tam ICU gerekir (Node ≥ 13 varsayılan).
+**Türkçe harf tuzağı:** `toLowerCase()`/`toUpperCase()` kullanılmaz — `I→i`, `i→I` eşlemesi yapar (`IŞIL` → `işil`, `ibrahim` → `Ibrahim`). Her ikisi de `toLocale…Case("tr-TR")` olmalıdır. Yalnızca `kelime.charAt(0)` büyütüp kalanı küçültmek tire/kesme sonrasını (`Mehmet-ali`) atlar. Node'da tam ICU gerekir (Node ≥ 13 varsayılan).
+
+İsteğe bağlı: kısaltma içeren ad alanlarında ("MR Cihazı") tamamı büyük yazılmış 2-4 harfli kelimeleri koruyan bir seçenek eklenebilir; bunun takası, büyük yazılmış kısa gerçek kelimelerin de ("YÜZ") korunmasıdır. Varsayılan: kapalı, basit kural.
 
 ## 3. Nerede uygulanır
 
-1. **Sunucu doğrulama katmanı yetkilidir** (security-baseline: client güvenlik değildir). Zod şemasında:
+1. **Sunucu doğrulama katmanı yetkilidir** (security-baseline: client güvenlik değildir). Her yazma yolunda, Zod şemasında:
 
 ```ts
-ad_soyad: z.string().trim().min(2, "Ad soyad en az 2 karakter olmalı.").transform((s) => isimBicimi(s)),
+ad_soyad: z.string().trim().min(2, "Ad soyad en az 2 karakter olmalı.").transform((s) => isimNormalle(s)),
 aciklama: z.string().trim().optional(), // dokunulmaz
 ```
 
-2. **Form alanı, `onBlur`'da** biçimlendirir ve kullanıcıya düzeltmeyi gösterir. `onChange`'de biçimlendirilmez: imleç zıplar, "ali " yazarken boşluk yenir, "Mc" gibi ara durumlar bozulur.
-3. **Toplu giriş yolları da aynı fonksiyondan geçer:** arşiv/Excel içe aktarma, QR/portal kayıt formu, başvuru formu, API route. Tek giriş yolu unutulursa tutarsız veri oluşur — yeni isim alanında tüm yazma yollarını tara (`grep -rn "ad_soyad" app lib`).
+2. **Form alanı `onChange`'de `isimBasHarfBuyukYap` ile** anında biçimlendirebilir — fonksiyon uzunluğu değiştirmediği için imleç zıplamaz. Trim/boşluk birleştirme yalnızca kayıtta (`isimNormalle`) yapılır; `onChange`'de `trim` kullanılırsa "ali " yazarken boşluk yenir.
+3. **Toplu giriş yolları da aynı fonksiyondan geçer:** arşiv/Excel içe aktarma, QR/portal kayıt formu, başvuru formu, API route. Yalnızca form `onChange`'ine güvenilirse içe aktarma ve doğrudan istek yolları biçimsiz veri yazar — yeni isim alanında tüm yazma yollarını tara (`grep -rn "ad_soyad" app lib`) ve her birinde sunucu tarafı `isimNormalle` olduğunu doğrula.
 4. **Görüntüleme katmanı biçimlendirmez.** Veri doğru saklanır, olduğu gibi gösterilir. CSS `capitalize` çözüm değildir: yalnızca görünümü değiştirir, veriyi değil; `lang="tr"` yoksa İ/ı'yı yanlış çevirir; aramada/dışa aktarmada eski ham hali çıkar.
 
 ## 4. Arama ve eşleştirme
@@ -89,12 +96,12 @@ aciklama: z.string().trim().optional(), // dokunulmaz
 
 - [ ] Alan "isim" mi "açıklama" mı, listede yazılı mı?
 - [ ] Zod `transform` sunucuda var mı; açıklama alanında yok mu?
-- [ ] Form `onBlur`'da biçimlendiriyor, `onChange`'de değil mi?
+- [ ] Formda `isimBasHarfBuyukYap` (uzunluk değiştirmez), kayıtta `isimNormalle` mi kullanılıyor?
 - [ ] Tüm yazma yolları (içe aktarma, QR form, portal, API) aynı fonksiyondan geçiyor mu?
 - [ ] `toLocaleLowerCase/UpperCase("tr-TR")` kullanıldı mı, çıplak `toLowerCase/toUpperCase` yok mu?
-- [ ] Test: tablodaki 8 örnek (özellikle `IŞIL`, `İBRAHİM`) geçiyor mu?
+- [ ] Test: tablodaki örnekler (özellikle `IŞIL`, `İBRAHİM`) geçiyor mu?
 - [ ] Mevcut veri için backfill önce liste olarak gösterildi mi?
 
 ## Çıktı formatı
 
-Kod dosya yollarıyla: `lib/isim.ts` + testi, Zod şema değişikliği, form `onBlur` bağlantısı. Backfill istendiyse: önce etkilenecek satır sayısı ve eski→yeni örnek listesi, sonra idempotent güncelleme.
+Kod dosya yollarıyla: yardımcı fonksiyonlar + testi, Zod şema değişikliği, form `onChange` bağlantısı. Backfill istendiyse: önce etkilenecek satır sayısı ve eski→yeni örnek listesi, sonra idempotent güncelleme.
