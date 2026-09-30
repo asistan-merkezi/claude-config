@@ -53,7 +53,7 @@ Pipeline'ın HER çalışması güvenle tekrarlanabilir olmalı; aynı veri iki 
 
 ## Zamanlanmış çalıştırma (GitHub Actions deseni)
 
-- Workflow: `schedule` cron (UTC!) + `workflow_dispatch` (elle tetikleme her zaman açık olsun).
+- Workflow: `schedule` cron (UTC!) + `workflow_dispatch` (elle tetikleme her zaman açık olsun). GitHub, public repolarda 60 gün hareketsizlikten sonra zamanlanmış workflow'ları kendiliğinden devre dışı bırakır; `schedule` tetikleri yoğun saatlerde dakikalarca gecikebilir — kesin saat gerektiren iş için uygun değildir, idempotent yazıldığı için gecikme zararsız olmalıdır. Saat dilimi hesabı: tarih-saat-donem.
 - Secrets: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` ve kaynak API anahtarları repo secrets'ta; workflow env üzerinden geçirilir.
 - Adımlar: checkout → Python kurulum → `pip install -r requirements.txt` → script. Timeout belirle (`timeout-minutes`), takılı iş dakikaları yemesin.
 

@@ -69,7 +69,7 @@ Bu sıra bozulursa telefon fotoğrafları yan döner: EXIF silinince oryantasyon
 **Temel kurallar:**
 - Kayıpsız işler (kesme, birleştirme, ses ayırma) yeniden encode ETMEDEN yapılır: `-c copy`. Yalnızca filtre/boyut değişiminde encode edilir.
 - Encode gerekiyorsa: H.264 (`libx264`), `crf 20-23`, `preset medium`, ses `aac 128k`. Sosyal medya dikeyi: 1080x1920, 30fps.
-- Kesme: `-ss` ve `-t/-to` giriş dosyasından ÖNCE yazılırsa hızlı ama keyframe'e yuvarlar; hassas kesim için `-ss`'i girdiden sonra ver (yavaş ama net).
+- Kesme: `-ss`/`-to` girdiden ÖNCE verilir (`-ss 10 -i girdi.mp4`): hızlıdır ve yeniden encode edilen kesimde (modern ffmpeg) kare hassasiyetindedir. `-c copy` ile kesimde ise en yakın keyframe'e yuvarlanır; tam kare hassasiyeti gerekiyorsa encode ederek kes.
 
 **Sık desenler:**
 - Birleştirme (aynı codec): concat demuxer + dosya listesi txt.
@@ -112,4 +112,4 @@ Kullanıcı dosya yüklediğinde çalışan işleme hattı. Modülün mimarisi (
 
 - Tek iş: çalıştırmaya hazır komut/script + 1 cümle ne yaptığı.
 - Toplu/tekrarlanacak iş: parametreli script (girdi/çıktı klasörü, boyut, kalite argümanlarıyla) + örnek çağrı.
-- Kurulum gereken paket varsa komutuyla belirt (`pip install pillow rembg`, `apt install ffmpeg`).
+- Kurulum gereken paket varsa komutuyla belirt (`pip install pillow rembg`; ffmpeg: Linux `apt install ffmpeg`, Windows `winget install ffmpeg`).

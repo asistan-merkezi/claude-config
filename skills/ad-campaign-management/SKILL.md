@@ -23,7 +23,7 @@ Meta reklamlarında kampanya stratejisi ve — en kritik olarak — **harcama g�
 
 - Sıralama: geniş hedefleme (algoritmaya bırak) → ilgi alanı bazlı → retargeting (siteyi ziyaret eden/etkileşim kuran) → lookalike (mevcut müşteri bazlı). Küçük bütçede aşırı daraltılmış hedefleme (birden fazla ilgi alanı kesişimi) yeterli gösterim almaz.
 - Retargeting/lookalike için kaynak veri (piksel, müşteri listesi) gerekir — bu veri toplama security-baseline'daki kişisel veri kurallarına tabi, KVKK/GDPR açık rıza şartı unutulmaz.
-- Reklam politika sınırları (sağlık, finans, hassas kategori hedefleme kısıtları) proje sektörüne göre CLAUDE.md'de not düşülür — özellikle finansal (BorsaAsistan tipi) veya sağlık ilişkili içerikte önceden kontrol edilir.
+- Reklam politika sınırları (sağlık, finans, hassas kategori hedefleme kısıtları) proje sektörüne göre CLAUDE.md'de not düşülür — özellikle finansal veya sağlık ilişkili içerikte önceden kontrol edilir.
 
 ## 4. Yaratıcı rotasyonu
 

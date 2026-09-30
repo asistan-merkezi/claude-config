@@ -20,8 +20,8 @@ Karar kuralı: kuralın ihlali **geri alınamaz zarar** doğuruyorsa (secret sı
 ## 2. Kurulum yapısı
 
 - Hook'lar `~/.claude/settings.json` (kişisel, tüm projeler) veya proje `.claude/settings.json` içinde tanımlanır.
-- Script'ler `~/.claude/hooks/` altında tutulur; claude-config repo'sunda versiyonlanır (`hooks/` klasörü) ve post-create.sh senkronuyla dağıtılır.
-- Hook script'i stdin'den JSON alır (tool adı + input); **exit 2** aracın çalışmasını engeller ve stderr mesajı Claude'a iletilir, exit 0 izin verir.
+- Script'ler `~/.claude/hooks/` altında tutulur. Kalıcı olanlar claude-config repo'sunda `hooks/` klasöründe versiyonlanmalıdır — **bu klasör henüz repoda yok**; ilk hook yazıldığında oluşturulur ve `setup-mcp.sh` gibi idempotent bir kurulum betiğiyle `~/.claude/hooks/`a kopyalanır (Windows'ta komutlar Git Bash üzerinden `bash ...` ile çalışır).
+- Hook script'i stdin'den JSON alır (tool adı + input); **exit 2** aracın çalışmasını engeller ve stderr mesajı Claude'a iletilir, exit 0 izin verir. **Diğer tüm sıfır olmayan çıkış kodları (ör. script hatası, exit 1) engellemez** — araç yine çalışır. Yani çöken bir guard script'i sessizce koruma dışı kalır: kritik guard'larda `set -u`, beklenmeyen girdide bilinçli karar (engelle mi izin ver mi) ve ilk kurulumda gerçek bir engelleme testi şarttır.
 
 ```json
 {

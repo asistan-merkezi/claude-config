@@ -34,12 +34,13 @@ Her dış çağrıda:
 - **Retry + backoff**: yalnızca geçici hatalarda (429, 5xx, ağ hatası) en fazla 3 deneme, üstel bekleme (1s → 2s → 4s) + jitter. 4xx (429 hariç) retry edilmez.
 - **Hata sınıflandırması**: sarmalayıcı hataları üç sınıfa ayırıp fırlatır: `RetryableError` (geçici), `ClientError` (bizim istek hatalı), `AuthError` (kimlik/token). Çağıran taraf sınıfa göre davranır.
 - **Idempotency key**: yazma işlemlerinde (ödeme, sipariş, gönderim) sağlayıcı destekliyorsa idempotency key gönderilir; retry çift kayıt üretmez.
-- **Circuit breaker** (yoğun kullanılan servislerde): art arda N hata sonrası devre açılır, X süre boyunca çağrı yapılmadan hızlı hata dönülür; süre sonunda tek deneme ile devre kapanır.
+- **Circuit breaker** (yoğun kullanılan servislerde): art arda N hata sonrası devre açılır, X süre boyunca çağrı yapılmadan hızlı hata dönülür; süre sonunda tek deneme ile devre kapanır. Serverless'ta bellek içi durum çağrılar arasında korunmaz; devre durumu Redis/DB'de tutulur veya bu desen atlanıp timeout + retry ile yetinilir.
 
 ## 5. Webhook alma standartları
 
 - **İmza doğrulama zorunlu**: sağlayıcının imza header'ı (HMAC vb.) doğrulanmadan payload işlenmez. Doğrulama başarısızsa 401, log'a kaydet.
-- **Hızlı ack, asenkron işle**: webhook handler 200'ü hemen döner (payload'ı `webhook_events` tablosuna ham kaydettikten sonra); asıl işleme arka planda/cron ile yapılır. Sağlayıcı timeout'una takılıp duplicate teslimat tetiklenmez.
+- İmza **ham body** üzerinden hesaplanır: Next.js route handler'da önce `await req.text()` ile ham metni oku, doğruladıktan SONRA `JSON.parse` et; önce `req.json()` çağrılırsa imza eşleşmez. Karşılaştırmada sabit zamanlı karşılaştırma (`timingSafeEqual`) kullan.
+- **Hızlı ack, asenkron işle**: webhook handler 200'ü hemen döner (payload'ı `webhook_events` tablosuna ham kaydettikten sonra); asıl işleme arka planda/cron ile yapılır (serverless'ta yanıt döndükten sonra biten fire-and-forget iş kesilebilir: `waitUntil`/`after()` veya kuyruk/cron kullan). Sağlayıcı timeout'una takılıp duplicate teslimat tetiklenmez.
 - **Idempotent işleme**: her event, sağlayıcının event ID'siyle unique kayıt edilir; aynı event ikinci kez gelirse sessizce atlanır.
 - Test için: sağlayıcının test/sandbox event'leri prod tablosuna işlenmez (mode alanı kontrol edilir).
 

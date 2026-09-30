@@ -27,6 +27,9 @@ Türk hukukuna göre web uygulaması hukuki metin taslakları ve KVKK uyum prati
 - **İlgili kişi hakları teknik karşılığı**: veri silme/düzeltme/taşıma talepleri için gerçek bir akış tasarlanır (talep kaydı → kimlik doğrulama → 30 gün içinde yanıt → silmenin yedeklere yansıma notu). "Mailde hallederiz" kabul edilmez.
 - **Saklama süreleri koda iner**: Envanterdeki süre biterse ne olacağı tanımlıdır (anonimleştirme/silme cron'u — data-pipeline standartlarıyla).
 - **Rıza kayıtları ispatlanabilir**: kim, ne zaman, hangi metne, hangi versiyona rıza verdi — veritabanında tutulur.
+- **VERBİS**: Belirli eşikleri aşan veri sorumluları VERBİS'e kayıt olmak zorundadır; kapsam ve istisnalar güncel Kurul kararlarından avukatla doğrulanır, envanter bu kaydın da kaynağıdır.
+- **Yurt dışı aktarım (m.9)**: 2024 değişikliğiyle aktarım mekanizmaları yeniden düzenlendi (yeterlilik kararı, standart sözleşme, bağlayıcı şirket kuralları vb.). Supabase/Vercel/Resend gibi yurt dışı alt işleyiciler için hangi mekanizmanın kullanıldığı envanterde yazılır; standart sözleşme imzalanıyorsa Kurul'a bildirim süresi takip edilir (güncel düzenleme avukatla teyit edilir).
+- **İYS**: Ticari elektronik ileti (e-posta/SMS/arama) KVKK açık rızasından ayrı bir rejimdir (6563 sayılı Kanun); alıcı onayı İYS'ye kaydedilir ve e-posta dizileri buna göre süzülür.
 - **Veri ihlali hazırlığı**: ihlal tespitinde 72 saat KVKK bildirimi kuralı için önceden iletişim şablonu ve karar sahibi bellidir.
 
 ## Teslim formatı

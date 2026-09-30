@@ -23,6 +23,7 @@ Projeye göre uygun yöntemi seç (CLAUDE.md'de belirtilmişse onu kullan):
   1. **Middleware**: oturum yoksa `/giris`e yönlendir (kaba koruma, UX için).
   2. **Sayfa/Action içinde**: `getUser()` ile doğrula (gerçek güvenlik burada — middleware tek başına güvenlik katmanı DEĞİLDİR).
 - Server tarafında kimlik doğrularken `getUser()` kullan, `getSession()`a güvenme (`getUser()` token'ı Supabase'e doğrulatır).
+- **Sürüm notu (Next 16 / güncel Supabase):** Next 16'da `middleware.ts` yerine `proxy.ts` kullanılır (aynı `@supabase/ssr` oturum yenileme deseni, yeni dosya adı); `cookies()`/`headers()`/`params` asenkrondur (`await`). Projede JWT signing keys açıksa Supabase yerel JWT doğrulaması için `getClaims()`'i öneriyor — güncel Supabase dokümanına bak ve kararı CLAUDE.md'ye yaz; `getUser()` her durumda geçerli ve en katı seçenektir.
 - Asıl veri güvenliği RLS'tedir; auth katmanı UX + ilk savunma hattıdır. "Middleware var, RLS'e gerek yok" ASLA kabul edilmez.
 
 ## Standart akışlar

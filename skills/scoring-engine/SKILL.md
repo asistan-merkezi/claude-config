@@ -26,7 +26,7 @@ backtest/
   backtest.py     # geçmiş veriyle değerlendirme
 ```
 
-- **Feature fonksiyonu sözleşmesi**: girdi = aday + bağlam verisi, çıktı = normalize skor (0-1 veya 0-100, projede TEK ölçek seç ve hiç sapma). Veri eksikse `None` döner — sahte nötr değer (0.5 gibi) üretme; eksiklik ağırlıklandırmada açıkça ele alınır (feature atlanır, kalan ağırlıklar yeniden normalize edilir).
+- **Feature fonksiyonu sözleşmesi**: girdi = aday + bağlam verisi, çıktı = normalize skor (0-1 veya 0-100, projede TEK ölçek seç ve hiç sapma). Veri eksikse `None` döner — sahte nötr değer (0.5 gibi) üretme; eksiklik ağırlıklandırmada açıkça ele alınır (feature atlanır, kalan ağırlıklar yeniden normalize edilir) — ama bu sessiz yapılmaz: aşağıdaki `veri_kapsama` ile mutlaka raporlanır.
 - **Ağırlıklar config'te**: kod içine gömülü sayı YOK. Config sürümlenir (`v1`, `v1_5` gibi) — hangi sürümle hangi backtest sonucunun alındığı izlenebilir olmalı.
 - Toplam skor varsayılanı ağırlıklı ortalama; feature'lar arası etkileşim gerekiyorsa (X yalnızca Y varken anlamlı) bunu ayrı bir bileşik feature olarak yaz, formülü karmaşıklaştırma.
 
@@ -44,7 +44,6 @@ Eksik veriyi renormalizasyonla sessizce yutmak riski gizler; skora keyfi ceza pu
 - Her feature TEK hipotezi kodlar ve adı hipotezi söyler (`form_skor`, `zemin_uyum` gibi). "Karışık sinyal" feature'ı yazma.
 - Normalizasyon yöntemini feature içinde belgele (min-max mı, persentil mi, kategori eşlemesi mi) — yorum satırıyla.
 - Sızıntı (leakage) kontrolü: feature, tahmin ANINDA bilinemeyecek veri kullanamaz (sonuç sonrası oluşan alanlar, gelecek tarihli kayıtlar). Her yeni feature'da açıkça sor: "Bu bilgi karar anında elimde olur muydu?" Yalnızca belirli zamanda oluşan veriler (ör. gün içinde açıklanan oranlar) varsa, backtest bunu zaman-uyumlu kullanmalı.
-- Veri doluluk oranını ölç: bir feature adayların büyük kısmında `None` kalıyorsa (ör. %40+) önce veri sorununu çöz, feature'ı sonra değerlendir.
 
 ## Backtest standartları
 
@@ -53,7 +52,7 @@ Eksik veriyi renormalizasyonla sessizce yutmak riski gizler; skora keyfi ceza pu
 - **Metrik seçimi domain'e göre**: sıralama problemi ise isabet@k (ilk k tahminde doğru var mı), ikili sonuç ise precision/recall, getiri problemi ise birim başına net getiri. Metrik CLAUDE.md'de tanımlanır ve sürümler arası SABİT tutulur — metrik değişirse eski sonuçlarla karşılaştırma yapılamaz.
 - **Sıralama motorları için asgari metrik seti** — tek başına isabet@1 yanıltıcıdır (şanslı bir dönem başarı gibi görünür):
   1. **İsabet@k** (@1, @3 ve domain'in tabela/plase karşılığı) — sıralama kalitesi.
-  2. **Simüle ROI** — getiri hedefi olan domain'lerde zorunlu. Yalnızca GERÇEK ödeme/fiyat verisi veritabanında varsa hesaplanır; tahmini ödemeyle ROI üretmek uydurmadır. Birim maliyet ve strateji kuralları (hangi kupon/bahis mantığı simüle edildi) açıkça yazılır; küçük örneklemde sonuç "gösterge" etiketlenir.
+  2. **Simüle ROI** — getiri hedefi olan domain'lerde zorunlu. Yalnızca GERÇEK ödeme/fiyat verisi veritabanında varsa hesaplanır; tahmini ödemeyle ROI üretmek uydurmadır. Birim maliyet ve strateji kuralları (hangi strateji kuralı simüle edildi; örn. kupon/bahis mantığı) açıkça yazılır; küçük örneklemde sonuç "gösterge" etiketlenir.
   3. **Kalibrasyon (Brier / log-loss)** — YALNIZCA motor skor→olasılık dönüşümü tanımlıysa. Normalize edilmiş 0-100 skor olasılık İDDİASI taşımaz; olasılık olmayan bir sayının kalibrasyonunu ölçmek yanıltıcı bir kesinlik hissi üretir.
   - Metrik seti genişletilirse eski sonuçlar ya yeni metrikle geriye dönük hesaplanır ya da "yalnızca eski metrik setiyle kıyaslanabilir" diye etiketlenir. Metrik sabitliği kuralı bu şekilde korunur.
 - **Dürüst raporlama**: örneklem büyüklüğü her sonuçta belirtilir; küçük örneklemde (ör. <100 olay) sonuç "gösterge" diye etiketlenir, zafer ilan edilmez. Başarısız hipotez de raporlanır ve kayda geçer — başarısızlık bilgidir, silinmez.

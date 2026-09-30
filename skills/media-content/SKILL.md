@@ -30,7 +30,7 @@ Amaca göre tür öner; kullanıcı tür belirttiyse ona uy:
 - Marka paleti ve fontlar her içerikte tutarlı (değerler CLAUDE.md'de). Şablonlaşabilir öğeler (kapak düzeni, alt bant, logo konumu) bir kez tanımlanıp tekrar kullanılır.
 - Kapak görseli (Reels cover / ilk carousel karesi) tek başına anlamlı olmalı: net başlık + görsel — profil ızgarasında da okunur.
 - Fotoğraf seçiminde: gerçek/doğal kareler stok görünümlü karelere tercih edilir; yeme-içme içeriğinde doğal ışık ve yakın çekim.
-- Boyutlar: post 1080x1350 (4:5, akışta daha fazla alan), carousel kareleri aynı boyutta, story/Reels 1080x1920. **Platform standart boyutlarının tek kaynağı bu skill'dir**; CLAUDE.md yalnızca marka-özel istisnaları tutar, `media-editing` bu boyutları uygular.
+- Boyutlar: post 1080x1350 (4:5, akışta daha fazla alan), carousel kareleri aynı boyutta, story/Reels 1080x1920, kare post 1080x1080, OG image 1200x630, YouTube kapak 1280x720. **Platform standart boyutlarının tek kaynağı bu skill'dir**; CLAUDE.md yalnızca marka-özel istisnaları tutar, `media-editing` bu boyutları uygular.
 
 ## AI video üretimi (Higgsfield vb.)
 
@@ -64,7 +64,7 @@ Amaca göre tür öner; kullanıcı tür belirttiyse ona uy:
 
 Tekil içerik üretiminden önce strateji katmanı — plan yoksa üretim başlamaz:
 
-- **İçerik sütunları**: marka başına 3-5 sütun tanımlanır (ör. NukhetBu: tarif, teknik ipucu, mekân, sezon) ve her sütunun amacı bellidir (keşif / güven / dönüşüm). Sütun dışı rastgele içerik üretilmez.
+- **İçerik sütunları**: marka başına 3-5 sütun tanımlanır (ör. bir restoran markası: tarif, teknik ipucu, mekân, sezon) ve her sütunun amacı bellidir (keşif / güven / dönüşüm). Sütun dışı rastgele içerik üretilmez.
 - **Konu haritası**: sütun × format matrisi (Reels/carousel/story) doldurulur; her konu hedef izleyici sorusuna bağlanır ("bunu kim neden izler/kaydeder?"). Cevabı olmayan konu listeden düşer.
 - **Takvim disiplini**: sürdürülebilir frekans belirlenir (haftada X) ve takvim en az 2 hafta ileriyi gösterir; "bugün ne paylaşsak" günü yaşanmaz. Takvim, approval-workflow taslak hattıyla uyumlu üretilir (üretim → onay → yayın tarihleri ayrı).
 - **Geri besleme döngüsü**: aylık gözden geçirmede sütun bazında performans (kaydetme/paylaşım öncelikli metrikler) değerlendirilir; işlemeyen sütun revize edilir veya emekli edilir — hissiyatla değil veriyle.

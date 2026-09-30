@@ -16,7 +16,7 @@ Tipografi ve yerleşim ağırlıklı görsellerin kodla üretimi. Marka renk/fon
 
 ## Format standartları
 
-- Hedef platform ölçüsü baştan sorulur/bilinir: OG image 1200×630, Instagram post 1080×1350 veya 1080×1080, story 1080×1920, YouTube kapak 1280×720. Tek görseli her boyuta bozarak sığdırmak yerine yerleşim boyuta uyarlanır.
+- Hedef platform ölçüsü baştan sorulur/bilinir; ölçülerin tek kaynağı `media-content`'tir (OG image, post, story, YouTube kapak — burada tekrarlanmaz). Tek görseli her boyuta bozarak sığdırmak yerine yerleşim boyuta uyarlanır.
 - Metin güvenli alanı: kenarlardan içeride tutulur; platformun kırptığı bölgelere (story alt/üst UI şeridi) kritik içerik konmaz.
 - Kontrast erişilebilirlik eşiğini geçer; görsel üstü metin gerekiyorsa karartma katmanı/plaka ile okunabilirlik garanti edilir.
 - Çıktı formatı kullanım yerine göre: web'de WebP/PNG, baskı-benzeri işlerde (sertifika, davetiye) PDF (pdf-generation standartlarıyla), şablonlar SVG olarak da saklanır.

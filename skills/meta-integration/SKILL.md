@@ -1,6 +1,6 @@
 ---
 name: meta-integration
-description: Meta (Facebook/Instagram) Graph API ve Marketing API teknik entegrasyon standartları — kimlik doğrulama, izinler/App Review, organik içerik yayınlama, reklam hesabı erişimi, webhook, rate limit. Kullanıcı "Instagram'a bağlan", "Facebook'a paylaş", "Meta API", "Graph API", "reklam hesabına eriş", "Meta ile entegrasyon", "instagram_content_publish", "ads_management izni" gibi ifadeler kullandığında veya MedyaAsistan'da Meta platformlarına organik paylaşım/reklam okuma-yazma bağlantısı kurulurken MUTLAKA bu skill'i kullan. Kampanya stratejisi, bütçe/hedefleme kararları için ad-campaign-management skill'i geçerlidir — bu skill sadece API bağlantı katmanını taşır.
+description: Meta (Facebook/Instagram) Graph API ve Marketing API teknik entegrasyon standartları — kimlik doğrulama, izinler/App Review, organik içerik yayınlama, reklam hesabı erişimi, webhook, rate limit. Kullanıcı "Instagram'a bağlan", "Facebook'a paylaş", "Meta API", "Graph API", "reklam hesabına eriş", "Meta ile entegrasyon", "instagram_content_publish", "ads_management izni" gibi ifadeler kullandığında veya projede Meta platformlarına organik paylaşım/reklam okuma-yazma bağlantısı kurulurken MUTLAKA bu skill'i kullan. Kampanya stratejisi, bütçe/hedefleme kararları için ad-campaign-management skill'i geçerlidir — bu skill sadece API bağlantı katmanını taşır.
 ---
 
 # Meta Integration
@@ -23,7 +23,7 @@ Meta Graph API (organik paylaşım) ve Marketing API (reklam) için teknik enteg
 - İzin (scope) örnekleri — proje ihtiyacına göre daralt, gereksiz izin isteme:
   - Organik paylaşım: `instagram_content_publish`, `pages_manage_posts`, `pages_read_engagement`
   - Reklam: `ads_management` (yazma), `ads_read` (salt okuma — sadece analiz gerekiyorsa bunu tercih et)
-- **App Review**: Development mode'da sadece App'e eklenmiş test kullanıcıları/hesapları çalışır. Production'da canlı hesaplara erişim için Meta'nın App Review sürecinden geçmek gerekir (kullanım senaryosu videosu + izin gerekçesi) — bu süreç günler sürebilir, proje takvimine erken eklenmeli.
+- **App Review**: Development mode'da sadece App'e eklenmiş test kullanıcıları/hesapları çalışır. Production'da canlı hesaplara erişim için Meta'nın App Review sürecinden geçmek gerekir (kullanım senaryosu videosu + izin gerekçesi) — bu süreç günler sürebilir, proje takvimine erken eklenmeli. Gizlilik politikası URL'si ve veri silme talebi yolu (data deletion URL/callback) App Review ve canlıya geçiş için hazır olmalı.
 
 ## 3. Organik içerik yayınlama (Instagram Graph API)
 
@@ -43,7 +43,7 @@ Meta Graph API (organik paylaşım) ve Marketing API (reklam) için teknik enteg
 
 - Abonelik `App Dashboard > Webhooks` üzerinden kurulur; endpoint HTTPS zorunlu.
 - Gelen her istekte `X-Hub-Signature-256` header'ı app secret ile HMAC doğrulanır — telegram-bot skill'indeki `secret_token` doğrulama mantığıyla aynı prensip, security-baseline'daki webhook imza kuralına bağlı.
-- Doğrulama isteği (subscribe sırasında Meta'nın gönderdiği `hub.challenge`) endpoint'te aynen geri döndürülür.
+- Doğrulama isteği (subscribe sırasında): `hub.verify_token` kendi belirlediğin gizli değerle eşleşiyorsa `hub.challenge` aynen geri döndürülür, eşleşmiyorsa 403; imza (`X-Hub-Signature-256`) ham body üzerinden hesaplanır (api-integration).
 - Meta, 200 dönmezse tekrar dener — handler hızlı 200 dönüp işi arkada yürütmeli (api-integration'daki "fast-ack-async-process" deseni).
 
 ## 6. Rate limit ve hata yönetimi

@@ -11,7 +11,7 @@ MCP connector'larıyla (Alpha Vantage, FMP) finansal araştırma iş akışları
 
 - Sayısal veri (fiyat, oran, tahmin, tablo) **her zaman connector'dan** gelir — LLM'e "X hissesinin fiyatı nedir" diye sorulmaz, tool'dan çekilir.
 - LLM yalnızca **yorum katmanıdır**: çekilen veriyi özetler, bağlamlandırır, çelişkileri işaret eder. Rakam üretmez, rakamı yorumlar. (ai-report skill'inin finansal özelleşmesi.)
-- Her çıktı **"analiz, yatırım tavsiyesi değildir"** notuyla biter. BorsaAsistan'ın analytics-only duruşu burada da geçerli — kişiselleştirilmiş al/sat önerisi üretilmez.
+- Her çıktı **"analiz, yatırım tavsiyesi değildir"** notuyla biter. Analytics-only duruşu (tavsiye değil, analiz) burada da geçerli — kişiselleştirilmiş al/sat önerisi üretilmez.
 
 ## Connector uçları (hangi veri nereden)
 
@@ -74,6 +74,6 @@ Akış:
 - Rate limit ve maliyet: connector'ların kendi limitleri var; toplu portföy taramasında sembol başına ayrı çağrı yapılır ama makul batch'lerde, gereksiz tekrar çağrı yok.
 - Veri çekim tarihi her çıktıda görünür — finansal veri hızlı eskir, "ne zamanki veri" belirsiz kalmaz.
 
-## Projede uygulama (BorsaAsistan vb.)
+## Projede uygulama (ürün modülü)
 
-- Bu skill connector tabanlı hızlı araştırma içindir. Kalıcı ürün özelliğine dönüşecekse (ör. BorsaAsistan'a hisse modülü): veri çekimi Python scraper + Supabase katmanına taşınır (data-pipeline skill'i), LLM yorumu ai-report deseniyle cron'a bağlanır. Connector doğrudan production akışına konmaz — geliştirme/araştırma aracıdır.
+- Bu skill connector tabanlı hızlı araştırma içindir. Kalıcı ürün özelliğine dönüşecekse (ör. bir ürüne hisse modülü): veri çekimi Python scraper + Supabase katmanına taşınır (data-pipeline skill'i), LLM yorumu ai-report deseniyle cron'a bağlanır. Connector doğrudan production akışına konmaz — geliştirme/araştırma aracıdır.

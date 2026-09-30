@@ -25,23 +25,23 @@ Yüksek riskli yüzeyler için üç geçişli düşmanca inceleme.
 ### Geçiş 1 — Attacker (saldırgan)
 - Görev: yüzeyi **kırmanın** yollarını bul. Çözüm önermez, sadece istismar senaryosu üretir.
 - Araçlar: Read/Grep/Glob — **yazma yok** (saldırgan sistemi değiştirmez, keşfeder).
-- Çıktı: `_agent/attack.md` — her bulgu bir istismar senaryosu: "X koşulunda Y yaparak Z'ye erişilir."
+- Çıktı: raporu yanıt olarak döner, ana oturum `_agent/attack-findings.md`'ye kaydeder — her bulgu bir istismar senaryosu: "X koşulunda Y yaparak Z'ye erişilir."
 - Sorulacak sorular: Bu RLS policy'yi hangi tenant_id ile atlatabilirim? Bu auth kontrolü hangi sırayla çağrılırsa baypas olur? Bu durum geçişini hangi ara adımı atlayarak bozabilirim? Bu ödeme akışını retry ile iki kez tetikleyebilir miyim?
 
 ### Geçiş 2 — Defender (savunucu)
-- Girdi: attack.md. Görev: her saldırıya karşı **düzeltme öner**.
-- Araçlar: Read/Grep/Glob — düzeltmeleri `_agent/defense.md`'ye yazar, **gerçek dosyalara dokunmaz** (öneri aşaması).
+- Girdi: `_agent/attack-findings.md`. Görev: her saldırıya karşı **düzeltme öner**.
+- Araçlar: Read/Grep/Glob — yazma yok; düzeltmeleri yanıt olarak döner (ana oturum `_agent/defense.md`'ye kaydeder), **gerçek dosyalara dokunmaz** (öneri aşaması).
 - Çıktı: her saldırı için ya somut düzeltme ya "bu saldırı geçerli değil, çünkü..." gerekçesi.
 
 ### Geçiş 3 — Auditor (denetçi)
-- Girdi: attack.md + defense.md. Görev: ikisini **bağımsızca yargıla**.
-- Araçlar: Read/Grep/Glob.
-- Çıktı: `_agent/audit.md` — her bulguya severity (kritik/yüksek/orta/düşük) + karar: **kabul** (savunma yeterli) / **yetersiz** (düzeltme eksik/yanlış) / **reddet** (saldırı geçersizdi).
+- Girdi: `_agent/attack-findings.md` + `_agent/defense.md`. Görev: ikisini **bağımsızca yargıla**.
+- Araçlar: Read/Grep/Glob — yazma yok.
+- Çıktı: yanıt olarak döner, ana oturum `_agent/verdict.md`'ye kaydeder — her bulguya severity (kritik/yüksek/orta/düşük) + karar: **kabul** (savunma yeterli) / **yetersiz** (düzeltme eksik/yanlış) / **reddet** (saldırı geçersizdi).
 - Kritik ve çözülmemiş bir bulgu varsa: **deploy-blocker** olarak işaretlenir; deploy-checklist bunu geçmeden yayına izin vermez.
 
 ## 3. Ana oturumun rolü
 
-- Ana oturum üç geçişi orkestre eder ama **karar vermez** — kararı auditor raporuna bakıp insan verir.
+- Ana oturum üç geçişi orkestre eder ve `_agent/` dosyalarını kendisi yazar (ajanların yazma yetkisi yoktur); **karar vermez** — kararı auditor raporuna bakıp insan verir.
 - Düzeltmeler ana oturumda (veya producer ile) uygulanır; adversarial review düzeltmeyi **uygulamaz**, sadece bulur ve yargılar.
 - Düzeltme uygulandıktan sonra kritik bulgular için **tek tur yeniden attack** yapılır (düzeltme yeni açık yarattı mı?). İki turdan fazla dönülüyorsa tasarım hatalıdır, mimariye geri dönülür (agent-orchestration sonsuz döngü kuralı).
 

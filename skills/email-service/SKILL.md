@@ -29,7 +29,13 @@ Standart yardımcı fonksiyon yapısı:
 // lib/email.ts
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy oluştur: modül seviyesinde `new Resend(...)` key yoksa constructor'da hata atar
+// ve Next build'i import anında düşer (env'siz CI/preview).
+let client: Resend | null = null;
+function getResend(): Resend {
+  client ??= new Resend(process.env.RESEND_API_KEY);
+  return client;
+}
 
 type SendResult = { success: boolean; message: string };
 
@@ -40,7 +46,7 @@ export async function sendEmail(params: {
   replyTo?: string;
 }): Promise<SendResult> {
   try {
-    const { error } = await resend.emails.send({
+    const { error } = await getResend().emails.send({
       from: process.env.EMAIL_FROM!, // "Uygulama <bildirim@domain.com>"
       ...params,
     });
@@ -69,6 +75,8 @@ Kurallar:
 - Şablon dili Türkçe (proje farklı belirtmediyse). Konu satırı kısa ve net: "Şifre sıfırlama bağlantınız", "Yeni kayıt: {ad}".
 - HTML şablon temelleri: 600px genişlik, inline CSS, tek sütun, mobil uyum; görsele değil metne dayan (görseller engellenebilir). Önemli bağlantıyı belirgin buton + altına düz link olarak ver.
 - Zorunlu içerik: gönderen kimliği net olmalı; pazarlama niteliği taşıyan maillerde abonelikten çıkma yolu ekle (transactional maillerde şart değil).
+- **Türkiye, ticari ileti:** pazarlama/kampanya e-postası 6563 sayılı Kanun gereği alıcının onayına ve İYS (İleti Yönetim Sistemi) kaydına dayanır; onaysız alıcıya gönderilmez. Transactional mailler (şifre sıfırlama, sipariş bilgisi) bu kapsamın dışındadır. Ayrıntı: kvkk-legal.
+- Retry eden gönderim akışlarında çift mail riskine karşı Resend'in idempotency key desteğini kullan (güncel SDK dokümanına bak).
 
 ## Test ve doğrulama
 

@@ -23,7 +23,7 @@ Kritik severity + "Yetersiz" veya bulgu "Kabul" ama düzeltme henüz uygulanmam�
 
 ## Çıktı
 
-`_agent/verdict.md` dosyasına yaz:
+Raporu yanıt olarak dön (ana oturum `_agent/verdict.md`'ye kaydeder):
 
 ```
 | # | Bulgu | Düzeltme Yeterli mi | Severity | Karar | Deploy'u Bloke Eder mi |

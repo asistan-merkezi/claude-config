@@ -21,6 +21,7 @@ Her projede geçerli güvenlik taban çizgisi (Next.js 14 + Supabase + Vercel).
 - String alanlarda max length zorunlu; sayısal alanlarda aralık; ID'lerde format (uuid).
 - SQL injection: Supabase client parametrize eder, ancak `rpc` içine ham string birleştirme yasak.
 - XSS: kullanıcı içeriği render edilirken `dangerouslySetInnerHTML` yasak; zorunluysa DOMPurify ile sanitize.
+- SSRF: kullanıcıdan gelen URL'ye sunucudan istek atılıyorsa (webhook hedefi, URL'den görsel çekme, scraper) izinli alan adı listesi uygula, iç ağ/metadata adreslerini (127.0.0.0/8, 10.0.0.0/8, 169.254.169.254 vb.) engelle, yönlendirmeleri takip etme.
 
 ## 3. CORS
 
@@ -31,7 +32,7 @@ Her projede geçerli güvenlik taban çizgisi (Next.js 14 + Supabase + Vercel).
 
 `next.config.js` headers ile tüm sayfalara:
 
-- `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`
+- `Strict-Transport-Security: max-age=63072000; includeSubDomains` — `preload` yalnızca tüm alt alan adları kalıcı HTTPS'e hazırsa ve bilinçli kararla eklenir (preload listesinden çıkmak aylar sürer)
 - `X-Content-Type-Options: nosniff`
 - `X-Frame-Options: DENY` (iframe gömme ihtiyacı yoksa)
 - `Referrer-Policy: strict-origin-when-cross-origin`

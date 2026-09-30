@@ -17,6 +17,8 @@ Next.js 14 + TypeScript + Supabase projelerinde test standartları.
 
 Piramidi tersine çevirme: E2E test yavaş ve kırılgandır, sadece paranın/verinin aktığı kritik yolculuklara yazılır.
 
+Not: asenkron Server Component'ler Vitest + React Testing Library ile doğrudan render edilemez; mantığı saf fonksiyona veya ayrı bir (senkron) bileşene çıkarıp onu test et, sayfanın bütününü Playwright ile doğrula. Server Action içindeki iş mantığı da ayrı fonksiyona alınıp unit test edilir.
+
 ## Temel ilkeler
 
 ### 1. Davranış > Coverage

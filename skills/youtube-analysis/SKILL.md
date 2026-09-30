@@ -44,7 +44,7 @@ Kullanıcının niyetine göre mod seçilir (belirsizse sor):
 
 **b) Hype ayıklama** — Pazarlama/abartı dili ile somut bilgiyi ayırır. Çıktı iki liste: "Somut iddialar (kanıt/demo gösterilen)" ve "Desteksiz iddialar/abartı". Ürün tanıtımı ve "X her şeyi değiştirecek" tarzı videolar için.
 
-**c) Rakip video analizi** — İçerik üreticisi gözüyle: hook (ilk 30 sn ne yapıyor), yapı/tempo, kullanılan formatlar, CTA'lar, hedef kitle sinyalleri, alınabilecek dersler. medyaasistan/nukhetbu içerik stratejisi için.
+**c) Rakip video analizi** — İçerik üreticisi gözüyle: hook (ilk 30 sn ne yapıyor), yapı/tempo, kullanılan formatlar, CTA'lar, hedef kitle sinyalleri, alınabilecek dersler. kendi içerik stratejisini beslemek için.
 
 **d) Soru-cevap** — Kullanıcının videoya dair sorularını transkriptten damga göstererek yanıtlar. Cevap transkriptte yoksa "videoda buna değinilmiyor" der.
 
@@ -54,7 +54,12 @@ Kullanıcının niyetine göre mod seçilir (belirsizse sor):
 
 - Bu skill **açık ağ erişimi** gerektirir → Claude Code / Codespaces ortamı için tasarlanmıştır.
 - claude.ai ortamında ağ kısıtlıysa transcript çekilemez; bu durumda kullanıcıdan transkripti yapıştırmasını iste — analiz modları aynen çalışır.
+- YouTube, bulut/veri merkezi IP'lerinden (Codespaces, VPS) gelen transcript isteklerini sık sık engeller (`RequestBlocked`/`IpBlocked` hataları); bu durumda komut kullanıcının kendi bilgisayarından çalıştırılır, proxy kullanılır veya transkript yapıştırılır.
 
 ## 6. Çoklu video
 
 - Birden fazla video karşılaştırması istenirse: her video ayrı analiz edilir, sonra karşılaştırma tablosu (konu kapsamı, derinlik, güncellik, damgalı referanslar).
+
+## Çıktı formatı
+
+Seçilen mod etiketiyle başlar; ardından zaman damgalı bölümler (`[mm:ss]`), altyazı türü (manuel/otomatik) notu ve "transkriptte net değil" işaretleri. Çoklu videoda karşılaştırma tablosu.

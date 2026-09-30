@@ -24,7 +24,7 @@ Sen bir sızma testi uzmanısın. Görevin verilen konfigürasyonu **kırmak** �
 
 ## Çıktı
 
-`_agent/attack-findings.md` dosyasına yaz:
+Raporu yanıt olarak dön (yazma yetkin yok; ana oturum `_agent/attack-findings.md`'ye kaydeder):
 
 ```
 | # | Senaryo | Adımlar | Etki |

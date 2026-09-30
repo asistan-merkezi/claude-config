@@ -33,3 +33,7 @@ description: Programatik SEO standartları — veriden ölçekli, indekslenebili
 - Yayın öncesi örneklem denetimi: rastgele 10 sayfa elle okunur — benzersiz değer var mı, veri doğru mu, şablon sırıtıyor mu.
 - Yayın sonrası izleme: Search Console'da indekslenme oranı ve "crawled - not indexed" birikimi izlenir; indekslenmeyen sayfa kümesi büyüyorsa şablon zenginleştirilir veya küme budanır.
 - Sayfa ağı büyütme kademeli: önce küçük küme (50-100 sayfa) → indekslenme/trafik kanıtı → genişletme. Günde binlerce sayfa basıp beklemek yasak.
+
+## Çıktı formatı
+
+Sayfa ağı planı tablosu (şablon | veri kaynağı | URL kalıbı | tahmini sayfa sayısı | hedef sorgu kalıbı | benzersiz içerik payı) + şablon / `generateMetadata` / sitemap kodu dosya yollarıyla + ilk kademe (50-100 sayfa) yayın ve izleme planı.

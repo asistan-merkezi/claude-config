@@ -21,7 +21,7 @@ Claude Code'da subagent kullanım standartları.
 
 ## 2. Roller ve en az yetki
 
-Dört standart rol; her biri yalnızca ihtiyacı olan araçlarla tanımlanır:
+Dört temel rol; her biri yalnızca ihtiyacı olan araçlarla tanımlanır. Özel görevler için uzmanlaşmış ajanlar (aşağıda) bu rollerin varyantlarıdır:
 
 | Rol | Görev | Araçlar |
 |---|---|---|
@@ -31,6 +31,18 @@ Dört standart rol; her biri yalnızca ihtiyacı olan araçlarla tanımlanır:
 | **test-runner** | Testleri koşar, kırmızıları analiz eder | Read, Bash (test komutları) — kaynak koda yazma yok |
 
 - Auditor'a yazma yetkisi vermek denetimin bağımsızlığını bozar; researcher'a yazma yetkisi keşfi üretime kaydırır. Rol sınırları bilinçli olarak dardır.
+- **Yazma yetkisi olmayan roller (researcher, auditor, attacker, defender, auditor-security) çıktısını yanıt olarak döner; `_agent/` dosyasını ana oturum yazar.** Brief'teki "ÇIKTI" satırı bu roller için "yanıt olarak dön, ana oturum şuraya kaydeder: `_agent/...`" biçiminde yazılır.
+
+### Uzmanlaşmış ajanlar (repodaki `agents/`)
+
+| Varyant | Ajanlar | Ne zaman |
+|---|---|---|
+| Düşmanca inceleme (adversarial-review) | `attacker` → `defender` → `auditor-security` | Yüksek riskli yüzeyler; her biri ayrı bağlamda, yazma yok |
+| Üretim | `producer`, `migrator`, `content-writer`, `legal-drafter`, `support-agent`, `finance-modeler` | Alana özel içerik/kod taslağı; kapsam dışına yazmaz |
+| Denetim / analiz | `auditor`, `seo-auditor`, `cro-analyst`, `ads-analyst` | Salt okunur değerlendirme ve öneri; uygulama yapmaz |
+| Yürütme | `data-runner`, `reconciliation-runner`, `test-runner`, `publisher`, `tryon-runner`, `postmortem-scribe` | Tanımlı bir hattı koşturur; her biri kendi skill'inin sınırlarına tabidir |
+| Keşif | `researcher` | Geniş okuma/araştırma |
+| Görsel | `designer` | Üret → ekran görüntüsü → denetle döngüsü |
 
 ## 3. Brief yapısı
 
@@ -59,7 +71,7 @@ _agent/
 ```
 
 - Her ajan girdisini bu dosyalardan okur, çıktısını buraya yazar; ana oturum sadece özetleri okur.
-- `_agent/` `.gitignore`'dadır; iş bitince silinir. Kalıcı bilgi CLAUDE.md'ye veya koda taşınır.
+- `_agent/` projenin `.gitignore`'una ilk kullanımda eklenir (yoksa ana oturum ekler); iş bitince silinir. Kalıcı bilgi CLAUDE.md'ye veya koda taşınır.
 
 ## 5. Birleştirme + denetim akışı
 

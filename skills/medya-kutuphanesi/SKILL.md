@@ -17,6 +17,7 @@ Bu modülün işleme sözleşmesi (işlemenin **nasıl** yapıldığı `media-ed
 - HEIC/HEIF girdisi (iPhone) client'ta JPEG'e çevrilir. Dönüştürücü kütüphane **lazy import** edilir (`await import('heic2any')`) — ağır kütüphane ana bundle'a girmez.
 - **Sunucu client'a güvenmez.** Route'a doğrudan istek atılabileceği varsayılır: boyut sınırı ve MIME + magic byte kontrolü (`security-baseline`) sunucuda tekrar yapılır, ardından dosya işleme hattından geçer.
 - Yön düzeltme + EXIF/GPS temizliği ve varyant üretimi (`thumb` / `md` / `lg`) **sunucuda** olur; client'ın gönderdiği dosya "orijinal" muamelesi görmez.
+- **Vercel gövde sınırı:** sunucusuz fonksiyonlar yaklaşık 4,5MB istek gövdesiyle sınırlıdır; büyük dosya doğrudan route'a POST edilemez. Desen: client dosyayı Supabase Storage'a **signed upload URL** ile geçici (karantina) prefix'e yükler → route dosyayı Storage'dan okuyup doğrular ve işler → varyantları asıl yola yazar, karantina dosyasını siler. Client tarafı küçültme bu yüzden yalnızca UX değil pratik bir gereklilik de olur.
 
 **Orijinal dosya politikası (karar gerektirir, CLAUDE.md'ye yazılır):**
 

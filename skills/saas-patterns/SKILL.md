@@ -23,7 +23,7 @@ Kurallar:
 
 - Kullanıcı-tenant ilişkisi HER ZAMAN junction tablosu üzerinden kurulur (bir kullanıcı birden çok tenant'a, farklı rollerle üye olabilir). Rolü `auth.users` metadata'sına veya profile gömme.
 - Tenant'a ait HER tabloda `tenant_id` kolonu bulunur (uuid, NOT NULL, FK, ON DELETE CASCADE) — "bu tablo zaten X üzerinden tenant'a bağlı" diyerek atlama; RLS ve sorgu basitliği için doğrudan kolon her tabloda olmalı.
-- Aktif tenant bağlamı tek bir helper function'dan okunur (ör. `current_tenant_id()`, SECURITY DEFINER). Adı projede tanımlıysa CLAUDE.md'den al. Kullanıcı çok tenant'lıysa aktif tenant seçimi profil/cookie'de tutulur ve helper bunu okur.
+- Aktif tenant bağlamı tek bir helper function'dan okunur (ör. `current_tenant_id()`, SECURITY DEFINER; `SET search_path = ''` ile tanımlanır ve policy'lerde `(select current_tenant_id())` biçiminde çağrılır — sql-migration). Adı projede tanımlıysa CLAUDE.md'den al. Kullanıcı çok tenant'lıysa aktif tenant seçimi profil/cookie'de tutulur ve helper bunu okur.
 
 ## İzolasyon katmanları
 

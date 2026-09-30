@@ -41,6 +41,7 @@ types/                # Paylaşılan TypeScript tipleri
 ## Server / Client ayrımı (App Router)
 
 - Varsayılan Server Component; `"use client"` yalnızca gerçekten gerektiğinde (state, event, browser API).
+- **Sürüm notu:** bu skill Next 14 örnekleriyle yazıldı. Next 15+/16'da `cookies()`, `headers()`, `params`, `searchParams` asenkrondur (`await`) ve `middleware.ts` yerine `proxy.ts` kullanılır; projenin sürümü CLAUDE.md'de yazar, örnekler ona uyarlanır. Supabase tablo tipleri elle yazılmak yerine `supabase gen types typescript` çıktısından üretilip `types/` altına alınır.
 - Veri çekme öncelik sırası: Server Component içinde doğrudan Supabase → Server Action (mutasyon) → Route Handler (webhook/harici erişim). Client'tan doğrudan fetch en son çare.
 - Supabase client'ları ayrı dosyalarda: server için cookie tabanlı client (`lib/supabase/server.ts`), client component'ler için browser client (`lib/supabase/client.ts`). İkisini karıştırma.
 - `SUPABASE_SERVICE_ROLE_KEY` yalnızca server tarafında kullanılır, ASLA client bundle'a sızmamalı. `NEXT_PUBLIC_` öneki sadece gerçekten public değerlerde.

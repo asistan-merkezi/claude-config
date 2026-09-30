@@ -25,6 +25,7 @@ draft → pending_approval → approved → published
 ```
 
 - Geçişler **trigger ile kısıtlanır**: `draft → published` gibi atlama denemesi hata verir.
+- Yayından geri çekme/arşivleme de bir geçiştir: `published → archived` (gerekiyorsa `approved → pending_approval` yeniden inceleme). Bu geçişler de trigger'da tanımlı, yetkili role bağlı ve `approval_events`'e yazılır; tanımsız bırakılırsa yayından kaldırma `UPDATE`/`DELETE` ile denetimsiz yapılır.
 - `status` kolonu enum/check constraint ile sınırlıdır; serbest metin yasak.
 - Her geçişte `status_changed_at` ve `status_changed_by` güncellenir (trigger).
 
@@ -60,7 +61,7 @@ draft → pending_approval → approved → published
 
 - LLM'in ürettiği her içerik **istisnasız `draft` olarak doğar**; otomatik yayın yolu yoktur.
 - Toplu üretimde bile onay **tek tek** verilir ("tümünü onayla" butonu yok) — AI çıktısı insan gözünden geçmeden yayınlanmaz.
-- Bu kural nukhetbu, medyaasistan gibi içerik projelerinin temel güvenlik varsayımıdır; kaldırılması bilinçli bir karar gerektirir.
+- Bu kural içerik üreten projelerin temel güvenlik varsayımıdır; kaldırılması bilinçli bir karar gerektirir.
 
 ## Kontrol listesi
 

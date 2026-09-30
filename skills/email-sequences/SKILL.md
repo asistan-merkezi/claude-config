@@ -13,6 +13,7 @@ Kullanıcı yaşam döngüsüne bağlı otomatik e-posta dizilerinin kurgusu. G�
 2. **Her mail tek iş**: Tek amaç, tek CTA. İki şey isteyen mail ikiye bölünür.
 3. **Değer/istek dengesi**: Dizide her "bizden bir şey iste" mailine karşılık en az bir "değer ver" maili (ipucu, kullanım örneği) bulunur.
 4. **Çıkış her zaman açık**: Her pazarlama mailinde tek tıkla abonelik iptali; iptal edilen kullanıcıya yalnızca zorunlu transactional mailler gider. Bu ayrım sunucu tarafında zorlanır (email-service).
+5. **İYS (Türkiye)**: Pazarlama niteliğindeki dizi mailleri yalnızca İYS'de ticari ileti onayı kayıtlı alıcılara gider; onay kaydı olmayan kullanıcı yalnızca transactional mailler alır. Dizi, alıcı listesini İYS onay durumuyla süzmeden çalışmaz (kvkk-legal).
 
 ## Standart diziler
 

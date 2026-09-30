@@ -35,3 +35,7 @@ SaaS ürünlerde fiyat ve paket kararı standartları. Plan tablolarının verit
 ## Sınırlar
 
 - Aldatıcı fiyatlandırma yasak: gizli zorunlu ek ücret, otomatik yenilemenin saklanması, iptalin zorlaştırılması. Abonelik/iptal hukuku metinleri kvkk-legal kapsamındadır.
+
+## Çıktı formatı
+
+Paket tablosu (kademe | değer metriği sınırı | fiyat | hedef müşteri) + her kademenin gerekçesi (1 cümle) + fiyat varsayımlarının kaynağı (rakip / ikame maliyet / müşteri görüşmesi) + gözden geçirme tarihi.

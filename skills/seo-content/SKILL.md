@@ -23,12 +23,12 @@ Türkçe pazar için SEO standartları: teknik altyapı (Next.js App Router) + i
 **Site altyapısı:**
 - `app/sitemap.ts` ile dinamik sitemap (statik sayfalar + veritabanından içerik URL'leri, `lastModified` ile); `app/robots.ts` ile robots (panel/auth route'ları `disallow`).
 - Canonical her sayfada mutlak URL; www/apex ve sondaki slash tutarlılığı tek biçimde.
-- URL yapısı: kısa, Türkçe, tireli, TÜRKÇE KARAKTERSİZ slug (`/metraj-hesaplama`, `ogrenci-kayit` — ğ/ş/ı dönüştürülür). Slug üretimini tek yardımcı fonksiyonda topla.
-- 404 yerine kalıcı taşınan içerikte 301 redirect (`next.config` veya middleware).
+- URL yapısı: kısa, Türkçe, tireli, TÜRKÇE KARAKTERSİZ slug (`/metraj-hesaplama`, `/ogrenci-kayit` — ğ/ş/ı dönüştürülür). Slug üretimini tek yardımcı fonksiyonda topla.
+- 404 yerine kalıcı taşınan içerikte 301 redirect (`next.config` `redirects`; istek düzeyi mantık gerekiyorsa Next 16'da `middleware.ts` yerine `proxy.ts`).
 
 **Structured data (JSON-LD):**
 - Uygun tiplerle script bloğu ekle: `Organization` (ana sayfa), `Article` (blog), `FAQPage` (SSS bölümü olan sayfalar), `SoftwareApplication`/`Product` (ürün), `BreadcrumbList`.
-- FAQPage özellikle değerli: Türkçe "nasıl/nedir" sorgularında zengin sonuç şansı yüksek.
+- FAQPage: Google 2023'ten beri SSS zengin sonucunu yalnızca bilinen devlet ve sağlık sitelerine gösteriyor; diğer sitelerde zengin sonuç BEKLENMEZ. SSS bölümü okuyucuya ve "nasıl/nedir" sorgularına değer kattığı için yazılır; şema eklenebilir ama sonuç vaat edilmez.
 
 **Performans sinyalleri:**
 - Görseller `next/image` ile (otomatik boyut + lazy load), LCP görseline `priority`.
@@ -63,7 +63,7 @@ Türkçe pazar için SEO standartları: teknik altyapı (Next.js App Router) + i
 
 Mevcut sayfa/site denetiminde standart kontrol listesi — denetim çıktısı "sorun → etki → düzeltme" formatında verilir, genel geçer tavsiye listesi değil:
 
-1. **Title/description**: her sayfada benzersiz, hedef sorguyu taşıyan title (≤60 karakter) ve tıklama gerekçesi veren description (≤155); şablon tekrarı işaretlenir.
+1. **Title/description**: her sayfada benzersiz, hedef sorguyu taşıyan title (50-60 karakter) ve tıklama gerekçesi veren description (140-160 karakter); şablon tekrarı işaretlenir.
 2. **Başlık hiyerarşisi**: tek H1, mantıklı H2/H3 ağacı; başlıkta anahtar kelime doğal kullanım (yığma yasak).
 3. **İndekslenebilirlik**: robots/noindex kazaları, canonical doğruluğu, yanlışlıkla client-only render edilen kritik içerik (GEO kuralıyla birlikte).
 4. **İç bağlantı**: yetim sayfalar, kırık linkler, anchor metinlerin açıklayıcılığı ("tıklayın" yasak).

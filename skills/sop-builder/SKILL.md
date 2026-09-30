@@ -28,3 +28,7 @@ Tekrarlanan süreçleri, işi hiç yapmamış birinin (veya bir agent'ın) hatas
 - Geri alınamaz adımlar (silme, ödeme, müşteri e-postası) ⚠️ ile işaretlenir ve öncesine kontrol adımı konur.
 - Secret/şifre SOP'a yazılmaz; nerede saklandığı yazılır (security-baseline log hijyeni kuralıyla tutarlı).
 - Agent'ların uygulayacağı SOP'lar, agent-orchestration brief formatına dönüştürülebilir yapıda tutulur — SOP'lar gelecekteki agent tanımlarının hammaddesidir.
+
+## Çıktı formatı
+
+`docs/sops/<ad>.md` dosyası: başlık-amaç, ön koşullar, numaralı adımlar (eylem + doğrulama), hata dalları, süre/sıklık, sahip ve son güncelleme tarihi. Komutlar kopyalanabilir blok halinde.

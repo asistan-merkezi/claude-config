@@ -28,3 +28,19 @@ müşterinin bugünkü acısı (onun diliyle) → maliyeti (zaman/para) → çö
 - Rekabet slaytında "bizde her şey var onlarda yok" tablosu yasak; gerçek güçlü/zayıf eksende dürüst konum.
 - Ekip slaytı unvan değil kanıt anlatır ("neden bu problemi biz çözeriz").
 - Talep slaytı net: tutar, kullanım planı, hangi metriğe ulaştıracağı. "Görüşmek isteriz" ile biten deste eksiktir.
+
+## Dil (Türkçe / İngilizce)
+
+- Dil, **dinleyiciye** göre seçilir, yazana göre değil: yerli yatırımcı/müşteri → Türkçe; yurt dışı yatırımcı veya uluslararası demo day → İngilizce. Karışık dinleyicide deste İngilizce, sunucu notları Türkçe olabilir.
+- İki dil ayrı dosya olarak tutulur (TR/EN), aynı slayt sırası ve aynı rakamlarla; "çeviri" değil **yerelleştirme**: İngilizce versiyonda para TL yanında USD karşılığı (kur tarihiyle), tarih biçimi ve hitap uyarlanır.
+- Türkçede çeviri kokan kalıplardan ve İngilizce jargon yığmaktan kaçın (copywriting); sektör terimi dinleyicinin bildiği dilde kalır.
+
+## Metrik seçimi
+
+- Traction slaytına **tek** ana metrik girer, en güçlü gerçek olan: aylık yinelenen gelir, aktif kullanıcı, pilot sayısı veya büyüme oranı. Yanına en fazla 2 destekleyici metrik; metrik duvarı yasak.
+- Metrik seçim testi: rakam (1) kaynağı gösterilebilir, (2) zaman aralığı belli, (3) kıyas noktası var (önceki dönem/hedef). Üçünden biri eksikse slayta girmez, sunucu notuna gider.
+- Erken aşamada (gelir yok) kanıt: pilot/bekleme listesi/görüşme sayısı ve bunlardan çıkan somut öğrenme; "potansiyel pazar" metrik yerine geçmez.
+
+## Çıktı formatı
+
+Slayt listesi tablosu: no | başlık (iddia cümlesi) | kanıt/metrik ve kaynağı | sunucu notu (2-3 cümle). Varsa ek (appendix) slaytları ayrı bölümde. Dosya üretimi pptx skill'ine devredilir.

@@ -26,3 +26,12 @@ description: Kaldıraçlı satın alma (LBO) ve şirket satın alma matematiği 
 - Borç kapasitesi hedef getiriye göre değil, nakit akışının taşıyabildiğine göre belirlenir (faiz karşılama ve borç servis karşılama oranları eşikleri görünür).
 - Stres testi zorunlu: gelir %20 düşerse borç servisi döner mü — dönmüyorsa model bu kırılganlığı ilk sayfada söyler.
 - Veri kaynağı belirsizse hesap yapılmaz; "yaklaşık FAVÖK" üzerine kurulu modelde bu belirsizlik sonuç aralığına yansıtılır.
+
+## TL ve enflasyon
+
+- TL bazlı modelde yüksek faiz ve enflasyon açıkça modellenir: nominal mi reel mi çalışıldığı varsayım bloğunda yazılır; FAVÖK büyümesi ile faiz aynı (nominal) bazda olmalı — reel büyümeyi nominal faizle kıyaslamak yasak.
+- Döviz borcu varsa kur riski ayrı senaryodur. Faiz giderlerinin vergi matrahından indirilebilirliği (finansman gider kısıtlaması gibi düzenlemeler) mali müşavirle doğrulanır; model bu varsayımı görünür tutar.
+
+## Çıktı formatı
+
+Sources & Uses tablosu + varsayım bloğu + yıllık projeksiyon ve borç şelalesi + senaryo/duyarlılık tablosu + getiri ayrıştırması (FAVÖK büyümesi / borç ödemesi / çarpan) + stres testi sonucu. Excel üretimi xlsx skill'ine devredilir.

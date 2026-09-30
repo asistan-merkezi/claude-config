@@ -48,7 +48,7 @@ BEGIN
   NEW.updated_at = now();
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = '';
 
 DROP TRIGGER IF EXISTS trg_ornek_tablo_updated_at ON ornek_tablo;
 CREATE TRIGGER trg_ornek_tablo_updated_at
@@ -84,6 +84,8 @@ Kurallar:
 - Rol kısıtı gerekiyorsa rolleri açıkça listele: `current_rol() IN ('admin', 'yonetici')` — geçerli rol adları CLAUDE.md'de.
 - Tek kullanıcılı / tenant'sız projelerde `auth.uid()` bazlı sahiplik policy'si kullan: `USING (user_id = auth.uid())`.
 - Service role (scraper/cron gibi backend işleri) RLS'i zaten bypass eder; bunun için policy yazmaya gerek yok, ama yorumla belirt.
+- **Performans:** policy içinde `auth.uid()` ve helper function çağrılarını `(select ...)` ile sarmala (`tenant_id = (select current_tenant_id())`); böylece satır başına değil sorgu başına bir kez değerlendirilir.
+- **SECURITY DEFINER** fonksiyonlarda her zaman `SET search_path = ''` (veya `public, pg_temp`) ver ve nesneleri şema adıyla çağır; aksi halde search_path üzerinden yetki yükseltilebilir.
 
 ## Index'ler
 
@@ -103,5 +105,6 @@ Kurallar:
 2. Tek SQL bloğu (yukarıdaki tüm kurallara uygun)
 3. Bloğun sonunda doğrulama sorgusu yorumu: `-- Kontrol: SELECT ... ;`
 4. Varsa dikkat edilecekler (kısa madde listesi, en fazla 3 madde)
+5. Canlı projede blok yalnızca SQL Editor'e bırakılmaz: aynı içerik `supabase/migrations/<zaman>_<ad>.sql` olarak repoya da yazılır (tekrarlanabilirlik, staging'de deneme, deploy-checklist). Dosya adı zaman damgası mevcut migration'larla çakışmamalıdır.
 
 Uzun açıklamalar yazma; kullanıcı deneyimli bir geliştirici, SQL bloğunun kendisi ve yorum satırları yeterli.

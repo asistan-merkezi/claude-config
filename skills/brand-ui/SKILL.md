@@ -1,6 +1,6 @@
 ---
 name: brand-ui
-description: Marka kimliği ve UI tutarlılık standartları (renk paleti, tipografi, component görünümü, Türkçe arayüz dili). Kullanıcı arayüz tasarımı, tema/renk sistemi, landing page görünümü, dashboard tasarımı, dark mode, component stili veya marka tutarlılığı istediğinde MUTLAKA bu skill'i kullan. "Tasarımı güzelleştir", "renkleri ayarla", "tema kur", "arayüzü düzenle", "landing tasarla", "dashboard görünümü" gibi ifadeler geçtiğinde de kullan. Tailwind üzerinde semantik, tutarlı, profesyonel marka arayüzleri üretir.
+description: Marka kimliği ve UI tutarlılık standartları (renk paleti, tipografi, animasyon, yerleşim, arka plan, component görünümü, Türkçe arayüz dili). Kullanıcı arayüz tasarımı, tema/renk sistemi, landing page görünümü, dashboard tasarımı, animasyon, dark mode, component stili veya marka tutarlılığı istediğinde MUTLAKA bu skill'i kullan. "Tasarımı güzelleştir", "renkleri ayarla", "tema kur", "arayüzü düzenle", "landing tasarla", "animasyon ekle", "jenerik durmasın", "dashboard görünümü" gibi ifadeler geçtiğinde de kullan. Tailwind üzerinde semantik, tutarlı, jenerik olmayan profesyonel marka arayüzleri üretir.
 ---
 
 # Brand UI
@@ -48,6 +48,65 @@ success / warning / danger / info   # durum renkleri
 - Buton metinleri fiilli ve sonuç söyler: "Kaydet", "Teklif Oluştur" — "Tamam/Gönder" belirsizliği yerine.
 - Tarih/para/sayı formatları `Intl.*('tr-TR')` ile; elle string formatlanmaz.
 - Onay diyalogları sonucu açıkça söyler: "Bu kaydı silmek geri alınamaz. Silinsin mi?" + butonlar "Vazgeç / Sil".
+
+## Animasyon
+
+- **İki katman**: basit durum geçişleri (hover, focus, renk/gölge) Tailwind `transition-*` ile; sıralı/orkestre edilmiş hareket (liste elemanlarının kademeli girişi, sayfa geçişi, layout değişimi) Framer Motion ile. Basit iş için Framer Motion yüklenmez.
+- **Amaçsız animasyon yok**: her hareket bir şey anlatır — durum değişti, yeni içerik geldi, dikkat buraya. Süs olsun diye dönen/zıplayan öğe eklenmez.
+- Süre disiplini: mikro etkileşimler 150-200ms, giriş/çıkış 200-300ms, sahne geçişleri en fazla 400ms. Ease olarak `ease-out` (giriş) / `ease-in` (çıkış) varsayılan.
+- Hover'da tek özellik değişmez, ölçülü kombinasyon kullanılır (ör. hafif `translate-y` + gölge derinliği) — sadece renk değişen "cansız hover" yerine; ama `scale-110` gibi abartı da yok.
+- `prefers-reduced-motion` her zaman desteklenir: Framer Motion'da `useReducedMotion`, CSS'te `motion-reduce:` varyantı.
+- Layout kaymasına (CLS) yol açan animasyon yasak; giriş animasyonları `transform/opacity` üzerinde kalır.
+
+## Anti-jenerik yerleşim
+
+Varsayılan AI çıktısı hep aynıdır: ortalanmış hero + dört eşit kart + üç kolon footer. Bunu kırmak için:
+
+- **Eşit kart grid'i son çare**: içerik gerçekten eşdeğer 3-4 öğeyse kullanılır. Değilse hiyerarşi kur — bir öğe büyük (öne çıkan), diğerleri küçük; veya 2/3 + 1/3 asimetrik bölünme; veya liste + detay deseni.
+- **Editoryal ritim**: bölümler aynı şablonun kopyası olmaz. Metin-sol/görsel-sağ → tam genişlik ifade → dar kolon metin gibi değişen ritim; her bölümde farklı bir yerleşim kararı.
+- **Beyaz alan cesareti**: her pikseli doldurma. Başlık etrafında nefes, bölümler arası belirgin boşluk (`py-16`+ landing'de) profesyonelliğin kendisidir.
+- **Tip ölçeğinde kontrast**: hero başlığı gövdeden çok belirgin büyük olur (`text-5xl`+ masaüstünde); "her şey text-xl" düzlüğü jenerikliğin ana sebebi.
+- **Hizalama çeşitliliği**: her şeyi ortalama. Landing'de sola hizalı başlık + asimetrik yerleşim çoğu zaman ortalanmış varyanttan daha karakterli.
+- Bu kararlar marka tonuna bağlıdır (CLAUDE.md): kurumsal ürün ölçülü asimetri, içerik/medya markası daha cesur editoryal düzen kaldırır.
+
+## Arka plan ve doku (jenerik gradyan yerine)
+
+- **Mor-pembe gradyan varsayılanı YASAK** — "AI yaptı" imzasıdır. Arka plan kararı marka paletinden türer.
+- Tercih sırası: (1) sade nötr zemin + güçlü tipografi, (2) marka renginin çok açık tonu / ton-üstü-ton geometri, (3) kodla üretilen özgün doku.
+- Kodla üretilen doku seçenekleri (ağır kütüphane gerektirmez): SVG desen (nokta/çizgi grid, topografik eğriler), CSS ile ince gürültü/grain, tek `<canvas>` ile deterministik üretken desen (seed sabit — her yüklemede aynı görünüm, marka tutarlılığı).
+- Kurallar: doku arka planda kalır (düşük kontrast, `opacity-[0.03-0.08]` aralığı), metin okunabilirliğini asla bozmaz, `prefers-reduced-motion`'da animasyonlu varyant durur, canvas dekoratifse `aria-hidden`.
+
+## Slop denetimi ve mevcut sistemi devralma
+
+Mevcut bir arayüzü iyileştirirken iki kural:
+
+**1. Önce devral, sonra düzelt** — mevcut tasarım sisteminin ÜZERİNE YAZMA:
+- İşe başlamadan mevcut sistemi çıkar: Tailwind config'teki semantik renkler, kullanılan font ölçeği, köşe yarıçapı ailesi, spacing standardı. Düzeltmeler BU sistemin diliyle yapılır.
+- Sistem yoksa (her component'e keyfi değer yazılmışsa) önce sistem borcu kapatılır (semantik katman kurulur), görsel rötuş sonra.
+- "Baştan tasarlayayım" refleksi yasak: kullanıcı yeniden tasarım istemedikçe iş, mevcut karakteri koruyarak temizliktir.
+
+**2. Slop denetimi** — "AI yapımı" görünümün somut sinyalleri; iyileştirme talebinde bu liste taranır:
+- [ ] Mor-pembe/mavi-mor gradyan hero zemini
+- [ ] Dört eşit kart grid'i + her kartta ikon-başlık-metin aynı kalıp
+- [ ] Her bölüm ortalanmış, hizalama çeşitliliği yok
+- [ ] Tip ölçeği düz (başlık/gövde kontrastı zayıf), her şey benzer boyutta
+- [ ] Keyfi değerler: `text-[17px]`, rastgele `mt-[13px]` — ölçek disiplini yok
+- [ ] Aynı ekranda karışık köşe yarıçapı / tutarsız gölge kullanımı
+- [ ] Boşluk ritmi tutarsız: kimi bölüm sıkışık, kimi anlamsız geniş
+- [ ] Cansız hover (yalnızca renk) veya hiç etkileşim durumu yok
+- [ ] Emoji'nin ikon yerine kullanılması, stok görünümlü jenerik görseller
+- [ ] Loading/boş/hata durumları tasarlanmamış
+
+Çıktı: ihlal listesi (nerede, hangi kural) → mevcut sistem diliyle düzeltme kodu → düzeltme sonrası kontrol listesinin temiz hali. "Güzelleştirdim" değil, madde madde gerekçeli değişiklik.
+
+Claude Code'da Playwright MCP kuruluysa tasarım işi "kod yazdım, bitti" ile kapanmaz:
+
+1. Sayfayı tarayıcıda aç, ekran görüntüsü al (masaüstü + mobil viewport)
+2. Görüntüyü bu skill'in kurallarına göre denetle: hiyerarşi net mi, boşluk ritmi tutarlı mı, jenerik desenlere düşülmüş mü, durum görünümleri var mı
+3. Sorunları düzelt, tekrar görüntü al — kural ihlali kalmayana kadar döngü
+4. Son görüntüleri kullanıcıya sun; onay kullanıcıda
+
+MCP yoksa aynı denetim kullanıcının paylaştığı ekran görüntüsü üzerinden yapılır.
 
 ## Dark mode (istenirse)
 
